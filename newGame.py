@@ -1,4 +1,3 @@
-from ahk import AHK
 from subprocess import Popen
 import os
 import time
@@ -7,15 +6,16 @@ import constants as C
 #  from ahk.window import Window
 # wsh = comclt.Dispatch("WScript.Shell")
 
-class NewGame:
-    def __init__(self):
-        self.ahk = AHK()
+
+class StartGame:
+    def __init__(self, ahk):
+        self.ahk = ahk
         self.emulator = None
         if os.path.exists(C.EMULATOR_LOCATION):
-            print("Booting emulator...")
+            print("Booting emulator...", flush=True)
             self.emulator = Popen(C.EMULATOR_LOCATION, cwd=r"emulator")
             time.sleep(C.EMULATOR_BOOT_DELAY)
-            print("Booted.")
+            print("Booted.", flush=True)
         else:
             print("Could not find emulator. Should be at: ", C.EMULATOR_LOCATION)
             quit()
@@ -23,7 +23,7 @@ class NewGame:
         self.window.activate()
 
     def insert_card(self):
-        print("inserting card...")
+        print("inserting card...", flush=True)
         # file -> open
         KI.KeyPress(KI.ALT, KI.SAFE_DELAY)
         KI.KeyPress(KI.F_KEY, KI.SHORT_DELAY)
@@ -42,28 +42,28 @@ class NewGame:
         KI.KeyPress(KI.SET_DEFAULT_SIZE, KI.SHORT_DELAY)
         # wait for intro cinematic?
         if C.CINEMATIC_DELAY:
-            print("waiting for cinematic...")
+            print("waiting for cinematic...", flush=True)
             time.sleep(20)
         else:
-            print("doing my best to skip this cinematic...")
-            print("waiting...")
+            print("doing my best to skip this cinematic...", flush=True)
+            print("waiting...", flush=True)
             time.sleep(6)
-            print("skipping")
+            print("skipping", flush=True)
             KI.KeyPress(KI.START)
-            print("waiting...")
+            print("waiting...", flush=True)
             time.sleep(4.5)
-        print("Entering title menu...")
+        print("Entering title menu...", flush=True)
         KI.KeyPress(KI.START)
         time.sleep(3)
         KI.KeyPress(KI.START, KI.SHORT_DELAY)
         time.sleep(1.5)
-        print("At title menu.")
+        print("At title menu.", flush=True)
 
     # setup the options to make the text faster
     # this results in shorter delays for keystrokes, enabling less waiting
     def titleOptions(self):
-        print("setting up the options to favor me...")
-        KI.KeyPress(KI.DOWN)
+        print("setting up the options to favor me...", flush=True)
+        KI.KeyPress(KI.DOWN, KI.SAFE_DELAY)
         KI.KeyPress(KI.DOWN)
         KI.KeyPress(KI.A)
         KI.KeyPress(KI.LEFT)
@@ -73,20 +73,20 @@ class NewGame:
         KI.KeyPress(KI.RIGHT)
         KI.KeyPress(KI.DOWN)
         KI.KeyPress(KI.A)
-        print("waiting...")
+        print("waiting...", flush=True)
         time.sleep(1)
-        print("Done.")
+        print("Done.", flush=True)
 
     # speed our way through the text blocks at the beginning of the game
     def startNewGame(self):
-        print("Lets get through these text blocks...")
+        print("Lets get through these text blocks...", flush=True)
         KI.KeyPress(KI.A)
-        print("Waiting...")
+        print("Waiting...", flush=True)
         time.sleep(2.4)
-        print("Spamming B Button")
+        print("Spamming B Button", flush=True)
         for i in range(0, 24, 1):
             KI.KeyPress(KI.B, KI.FAST)
-        print("Time to enter our name...")
+        print("Time to enter our name...", flush=True)
         KI.KeyPress(KI.A, KI.FAST)
         KI.KeyPress(KI.A, KI.SAFE_DELAY)
         KI.KeyPress(KI.LEFT, KI.FAST)
@@ -95,16 +95,21 @@ class NewGame:
         KI.KeyPress(KI.UP, KI.FAST)
         KI.KeyPress(KI.LEFT, KI.FAST)
         KI.KeyPress(KI.A, KI.FAST)
-        print("What a great name!")
+        print("What a great name!", flush=True)
         time.sleep(1)
         KI.KeyPress(KI.A, KI.FAST)
         time.sleep(2)
         for i in range(0, 8, 1):
             KI.KeyPress(KI.B, KI.FAST)
-        print("Red? What an atrocious color.")
+        print("Red? What an atrocious color.", flush=True)
         KI.KeyPress(KI.DOWN, KI.SAFE_DELAY)
         KI.KeyPress(KI.A, KI.FAST)
-        print("This guy really likes to talk...")
+        print("This guy really likes to talk...", flush=True)
         for i in range(0, 20, 1):
             KI.KeyPress(KI.B, KI.FAST)
-        print("Is he done?")
+        print("Is he done?", flush=True)
+
+    def continue_game(self):
+        KI.KeyPress(KI.A, KI.SAFE_DELAY)
+        time.sleep(1)
+        KI.KeyPress(KI.A, KI.SAFE_DELAY)

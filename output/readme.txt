@@ -1,0 +1,1 @@
+This file is a temporary storage for the image files that the trained CNN model reads in to make decisions.
