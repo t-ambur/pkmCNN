@@ -6,6 +6,7 @@ import time
 ####
 import newGame
 import randomControls as rc
+import constants as c
 ####
 
 # TODO
@@ -38,13 +39,13 @@ print("The control at this point are determined by RNG", flush=True)
 
 
 def screenshot():
-    threading.Timer(5.0, screenshot).start()
+    threading.Timer(c.SCREEN_SHOT_INTERVAL, screenshot).start()
     window = ahk.active_window
     x = window.position[0]
     y = window.position[1]
     h = window.height
     w = window.width
-    im = ImageGrab.grab(bbox=(x, y, x + w, y + h))
+    im = ImageGrab.grab(bbox=(x, y+c.SCREEN_SHOT_Y_REMOVAL, x + w, y + h))
     t = time.time()
     location = "output\\screenshot" + str(t) + ".png"
     im.save(location)
