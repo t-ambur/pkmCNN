@@ -72,15 +72,33 @@ def train(X, y, dense_layers, layer_sizes, conv_layers):
 
     return model
 
+
 # CNN1.model battle/nonbattle
 # 3 EPOCHS
+print("training battle vs nonbattle model...", flush=True)
 dense_layers = [0]
 layer_sizes = [32]
 conv_layers = [1]
 print("loading pickle files...", flush=True)
 data, labels = load_pickles(c.BTL_PATH)
 model = train(data, labels, dense_layers, layer_sizes, conv_layers)
-print("saving model...")
-save_location = "train\\data\\battle-or-not\\CNN1.model"
+print("saving model...", flush=True)
+save_location = c.BTL_MODEL_PATH
 model.save(save_location)
 print("Complete. Model saved to:", save_location)
+print("\n\n", flush=True)
+
+# CNN2.model text/nontext
+# EPOCHS untested, using 3
+print("training text vs nontext model...", flush=True)
+dense_layers = [0]
+layer_sizes = [32]
+conv_layers = [1]
+print("loading pickle files...", flush=True)
+data, labels = load_pickles(c.TEXT_PATH)
+model = train(data, labels, dense_layers, layer_sizes, conv_layers)
+print("saving model...", flush=True)
+save_location = c.TEXT_MODEL_PATH
+model.save(save_location)
+print("Complete. Model saved to:", save_location)
+print("\n\n", flush=True)

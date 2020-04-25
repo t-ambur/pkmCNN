@@ -56,7 +56,7 @@ class StartGame:
         KI.KeyPress(KI.START)
         time.sleep(3)
         KI.KeyPress(KI.START, KI.SHORT_DELAY)
-        time.sleep(1.5)
+        time.sleep(3)
         print("At title menu.", flush=True)
 
     # setup the options to make the text faster
@@ -111,5 +111,5 @@ class StartGame:
 
     def continue_game(self):
         KI.KeyPress(KI.A, KI.SAFE_DELAY)
-        time.sleep(1)
+        time.sleep(3)
         KI.KeyPress(KI.A, KI.SAFE_DELAY)

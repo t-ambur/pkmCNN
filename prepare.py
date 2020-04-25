@@ -7,18 +7,12 @@ import constants as c
 
 # train holds all folders containing labels
 DATADIR = "train"
-# battle = label 1, nonbattle = 0
-CATEGORIES = ["nonbattle", "battle"]
-# path to save pkl to
-
-
 # resize to a square IMG_SIZE x IMG_SIZE
 IMG_SIZE = c.IMG_SIZE
-
 training_data = []
 
 
-def create_training_data():
+def create_training_data(CATEGORIES):
     for category in CATEGORIES:
         path = os.path.join(DATADIR, category)
         index = CATEGORIES.index(category)
@@ -34,31 +28,40 @@ def create_training_data():
                 pass
 
 
-print("preparing images...", flush=True)
-create_training_data()
-# shuffle
-print("shuffling data", flush=True)
-random.shuffle(training_data)
+def prep(categories):
+    print("preparing images...", flush=True)
+    create_training_data(categories)
+    print("shuffling data", flush=True)
+    random.shuffle(training_data)
+    X = []  # capital X is your feature set
+    y = []  # lowercase y is your labels
+    print("generating pickle files...", flush=True)
+    for features, label in training_data:
+        X.append(features)
+        y.append(label)
 
-# print(len(training_data))
+    X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1)  # -1 for any number, 1 for grayscale (3 for RGB)
+    return X, y
 
-X = []  # capital X is your feature set
-y = []  # lowercase y is your labels
-print("generating pickle files...", flush=True)
-for features, label in training_data:
-    X.append(features)
-    y.append(label)
 
-X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1) # -1 for any number, 1 for grayscale (3 for RGB)
+def save(X, y, location):
+    outputlocation = os.path.join(location, c.X_NAME)
+    pickle_out = open(outputlocation, 'wb')
+    pickle.dump(X, pickle_out)
+    pickle_out.close()
+    print("X done.", flush=True)
+    outputlocation = os.path.join(location, c.Y_NAME)
+    pickle_out = open(outputlocation, 'wb')
+    pickle.dump(y, pickle_out)
+    pickle_out.close()
+    print("Y done.\nPrepare complete.", flush=True)
+    training_data.clear()
 
-outputlocation = os.path.join(c.BTL_PATH, c.X_NAME)
-pickle_out = open(outputlocation, 'wb')
-pickle.dump(X, pickle_out)
-pickle_out.close()
-print("X done.", flush=True)
 
-outputlocation = os.path.join(c.BTL_PATH, c.Y_NAME)
-pickle_out = open(outputlocation, 'wb')
-pickle.dump(y, pickle_out)
-pickle_out.close()
-print("Y done.\nPrepare complete.", flush=True)
+#  Battle or non-battle
+print("Preparing Battle vs nonBattle", flush=True)
+X, y = prep(c.BTL_CATEGORIES)
+save(X, y, c.BTL_PATH)
+print("Preparing World Text vs nonText", flush=True)
+X, y = prep(c.TEXT_CATEGORIES)
+save(X, y, c.TEXT_PATH)
