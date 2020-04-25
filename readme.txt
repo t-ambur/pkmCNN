@@ -6,6 +6,11 @@
 ahk
 pyscreenshot
 pillow
+numpy
+pickle (if not installed already in another package)
+tensorflow (and/or tensorflow GPU)
+Keras (if not bundled with tensorflow)
+opencv-python
 ctypes, time, os, subprocess, threading, random (should install by default with python)
 
 >> AutoHotkey.exe installed (to default install location OR PATH configured properly)
@@ -47,12 +52,3 @@ In your terminal, to start a new game, Run: python pkmblue.py
 To start an existing game (after you configure the options), Run: python pkmblue.py continue
 
 Enjoy watching the AI run into walls and faint frequently.
-
------- training required software ------
->>>> These are in addition to the software to run
->> python modules:
-numpy
-pickle (if not installed already in another package)
-tensorflow (and/or tensorflow GPU)
-Keras (if not bundled with tensorflow)
-opencv-python

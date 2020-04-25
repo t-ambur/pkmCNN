@@ -2,6 +2,7 @@ import pickle
 import tensorflow as tf
 import numpy as np
 import time
+import os
 import constants as c
 
 # to run tensorboard:
@@ -10,9 +11,12 @@ import constants as c
 
 # loops to create different combinations for testing
 def test_layers():
-    pickle_in = open('X.pkl', 'rb')
+    inputlocation = os.path.join(c.BTL_PATH, c.X_NAME)
+    pickle_in = open(inputlocation, 'rb')
     X = pickle.load(pickle_in)
-    pickle_in = open('y.pkl', 'rb')
+
+    inputlocation = os.path.join(c.BTL_PATH, c.Y_NAME)
+    pickle_in = open(inputlocation, 'rb')
     y = pickle.load(pickle_in)
 
     ###################################
@@ -29,7 +33,7 @@ def test_layers():
                 print(NAME)
 
                 model = tf.keras.Sequential()
-                # (3,3) is windows, x.shape is 50x50x1 ignore -1
+                # (3,3) is windows, x.shape is IMG_SIZExIMG_SIZEx1 ignore -1
                 model.add(tf.keras.layers.Conv2D(64, (3, 3), input_shape=X.shape[1:]))
                 model.add(tf.keras.layers.Activation("relu"))
                 model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,2)))
@@ -62,3 +66,6 @@ def test_layers():
                 model.fit(X, y, batch_size=c.BATCH_SIZE,
                           epochs=c.EPOCHS, validation_split=c.VALIDATION_SPLIT,
                           callbacks=[tensorboard])
+
+
+test_layers()

@@ -13,9 +13,12 @@ def prepare(filepath):
 
 def predict(filepath, model):
     prediction = model.predict_classes([prepare(filepath)])
-    print(prediction)
-    print(prediction[0][0])
+    # print(prediction)
+    index = prediction[0][0]
+    return index
 
 
-# model = tf.keras.models.load_model('CNN.model')
+model = tf.keras.models.load_model(c.BTL_MODEL_PATH)
+index = predict("train\\nonbattle\\atest.png", model)
+print(str(c.BTL_CATEGORIES[index]))
 # prediction = model.predict_classes([prepare('dog.jpg')])

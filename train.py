@@ -7,24 +7,29 @@ import pickle
 import time
 import numpy as np
 import constants as c
+import os
 
 
-def load_pickles():
-    pickle_in = open("X.pkl","rb")
+def load_pickles(path):
+    inputlocation = os.path.join(path, c.X_NAME)
+    pickle_in = open(inputlocation,"rb")
     X = pickle.load(pickle_in)
 
-    pickle_in = open("y.pkl","rb")
+    inputlocation = os.path.join(path, c.Y_NAME)
+    pickle_in = open(inputlocation,"rb")
     y = pickle.load(pickle_in)
     return X, y
 
 # after deciding which layers to choose, make these match
+# battle/nonbattle = 0 dense, 32 nodes, 1 conv
 # dense_layers = [0]
 # layer_sizes = [64]
 # conv_layers = [3]
 
 
-def train(dense_layers, layer_sizes, conv_layers):
-    X, y = load_pickles()
+def train(X, y, dense_layers, layer_sizes, conv_layers):
+    model = None
+    print("building network...", flush=True)
     for dense_layer in dense_layers:
         for layer_size in layer_sizes:
             for conv_layer in conv_layers:
@@ -51,19 +56,31 @@ def train(dense_layers, layer_sizes, conv_layers):
                 model.add(Dense(1))
                 model.add(Activation('sigmoid'))
 
-                tensorboard = TensorBoard(log_dir="logs\\{}".format(NAME))
-
+                # tensorboard = TensorBoard(log_dir="logs\\{}".format(NAME))
+                print("Compiling model...", flush=True)
                 model.compile(loss='binary_crossentropy',
                               optimizer='adam',
                               metrics=['accuracy'],
                               )
 
                 y = np.asarray(y)
-
+                print("Start training", flush=True)
                 model.fit(X, y,
                           batch_size=c.BATCH_SIZE,
                           epochs=c.EPOCHS,
-                          validation_split=c.VALIDATION_SPLIT,
-                          callbacks=[tensorboard])
+                          validation_split=c.VALIDATION_SPLIT)
 
-    model.save('CNN.model')
+    return model
+
+# CNN1.model battle/nonbattle
+# 3 EPOCHS
+dense_layers = [0]
+layer_sizes = [32]
+conv_layers = [1]
+print("loading pickle files...", flush=True)
+data, labels = load_pickles(c.BTL_PATH)
+model = train(data, labels, dense_layers, layer_sizes, conv_layers)
+print("saving model...")
+save_location = "train\\data\\battle-or-not\\CNN1.model"
+model.save(save_location)
+print("Complete. Model saved to:", save_location)

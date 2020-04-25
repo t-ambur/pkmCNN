@@ -37,12 +37,14 @@ print("The control at this point are determined by RNG", flush=True)
 
 
 def create_daemon(thread):
-    thread.daemon = True
-    thread.start()
+
     print("screenshot thread started", flush=True)
 
 
 def screenshot():
+    thread = threading.Timer(c.SCREEN_SHOT_INTERVAL, screenshot)
+    thread.daemon = True
+    thread.start()
     window = ahk.active_window
     x = window.position[0]
     y = window.position[1]
@@ -56,14 +58,11 @@ def screenshot():
 
 
 looping = True
-thread = threading.Timer(c.SCREEN_SHOT_INTERVAL, screenshot)
-create_daemon(thread)
+screenshot()
 try:
     while looping:
         chaos.random_fast()
 except KeyboardInterrupt as e:
-    print("Waiting for screenshot thread to close...")
-    thread.cancel()
-    thread.join()
+    # print("Waiting for screenshot thread to close...")
     print("exiting..")
     sys.exit()
