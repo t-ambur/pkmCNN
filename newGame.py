@@ -99,7 +99,7 @@ class StartGame:
         time.sleep(1)
         KI.KeyPress(KI.A, KI.FAST)
         time.sleep(2)
-        for i in range(0, 8, 1):
+        for i in range(0, 14, 1):
             KI.KeyPress(KI.B, KI.FAST)
         print("Red? What an atrocious color.", flush=True)
         KI.KeyPress(KI.DOWN, KI.SAFE_DELAY)

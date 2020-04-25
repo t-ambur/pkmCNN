@@ -5,6 +5,7 @@
 >> python modules:
 ahk
 pyscreenshot
+pillow
 ctypes, time
 os, subprocess, threading, random (should install by default with python)
 >> AutoHotkey.exe installed (to default install location OR PATH configured properly)
@@ -44,3 +45,7 @@ In your terminal, to start a new game, Run: python pkmblue.py
 to start an existing game (after you configure the options), Run: python pkmblue.py continue
 
 Enjoy watching the AI run into walls and faint frequently.
+
+-- training required software --
+>> python modules:
+opencv-python

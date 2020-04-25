@@ -10,8 +10,6 @@ import constants as c
 ####
 
 # TODO
-# Investigate recursive call limit in python --> taking screen shots
-# Force threads to be daemons that quit (gracefully) when main app closes
 # Make images alternate (1...10) then preprocess each image to save space
 ######## write image preprocessing
 ######## write first CNN
@@ -38,8 +36,13 @@ chaos = rc.RandomControls(ahk)
 print("The control at this point are determined by RNG", flush=True)
 
 
+def create_daemon(thread):
+    thread.daemon = True
+    thread.start()
+    print("screenshot thread started", flush=True)
+
+
 def screenshot():
-    threading.Timer(c.SCREEN_SHOT_INTERVAL, screenshot).start()
     window = ahk.active_window
     x = window.position[0]
     y = window.position[1]
@@ -53,6 +56,14 @@ def screenshot():
 
 
 looping = True
-screenshot()
-while looping:
-    chaos.random_fast()
+thread = threading.Timer(c.SCREEN_SHOT_INTERVAL, screenshot)
+create_daemon(thread)
+try:
+    while looping:
+        chaos.random_fast()
+except KeyboardInterrupt as e:
+    print("Waiting for screenshot thread to close...")
+    thread.cancel()
+    thread.join()
+    print("exiting..")
+    sys.exit()
