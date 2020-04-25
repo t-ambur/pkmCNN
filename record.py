@@ -2,10 +2,12 @@ from ahk import AHK
 import time
 import sys
 import pyscreenshot as ImageGrab
+import constants as c
 
 ahk = AHK()
 
 SCREENSHOT_INTERVAL = 5
+
 
 def screenshot():
     window = ahk.active_window
