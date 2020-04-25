@@ -1,18 +1,20 @@
 
 
---Software Required--
+-----Software Required-----
 >> python 3.6 or 3.7
 >> python modules:
 ahk
 pyscreenshot
 pillow
-ctypes, time
-os, subprocess, threading, random (should install by default with python)
+ctypes, time, os, subprocess, threading, random (should install by default with python)
+
 >> AutoHotkey.exe installed (to default install location OR PATH configured properly)
+
 >> VisualBoyAdvance-M (version 2.1.4) emulator (SPECIFIC VERSION, ALSO MUST BE THE GITHUB M VARIANT)
 If you have modified the control scheme for VBA-M, reset one of the schemes to the default keybindings
-You will need to go to Options -> Key Shortcuts, then find the command: Screen capture...
-Map this shortcut to the = key
+You need to change the default border setting:
+options -> game boy -> configure -> display borders: Never
+
 >> A terminal or command line tool to execute python scripts.
 
 ------Run------
@@ -24,8 +26,7 @@ in order to get feedback from the game. The neural network uses the images recei
 
 >> You will need to acquire a pokemon blue ROM
 Name the ROM: blue.zip
-If your ROM is not a zip file, I can't guarantee that is will work, but you can try changing the ROM name in
-constants.py
+If your ROM is not a zip file, I can't guarantee that is will work, but you can try changing the ROM name in constants.py
 If you want to start a new game, do not include any save files in this directory, as it will mess with the
 timing of the keystroke injection.
 
@@ -41,11 +42,17 @@ save.)
 Please refrain from resizing the window after launch, the width and height of the screen is important
 
 Place the blue.zip ROM and the emulator in the emulator folder
+
 In your terminal, to start a new game, Run: python pkmblue.py
-to start an existing game (after you configure the options), Run: python pkmblue.py continue
+To start an existing game (after you configure the options), Run: python pkmblue.py continue
 
 Enjoy watching the AI run into walls and faint frequently.
 
--- training required software --
+------ training required software ------
+>>>> These are in addition to the software to run
 >> python modules:
+numpy
+pickle (if not installed already in another package)
+tensorflow (and/or tensorflow GPU)
+Keras (if not bundled with tensorflow)
 opencv-python
