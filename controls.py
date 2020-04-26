@@ -3,12 +3,13 @@ import keyInjector as KI
 import constants as C
 import random
 
-KEYPRESS_DELAY = .1
+KEYPRESS_DELAY = .05
 
 
 class Control:
     def __init__(self, ahk):
         self.ahk = ahk
+        self.print = False
 
     # random focused on moving around
     def random_fast(self):
@@ -17,6 +18,13 @@ class Control:
             self.press_a()
         elif rand == 2:
             self.press_b()
+        else:
+            self.rand_direction(2)
+
+    def random_world(self):
+        rand = random.randint(1, 4)
+        if rand <= 1:
+            self.press_a()
         else:
             self.rand_direction(2)
 
@@ -77,20 +85,24 @@ class Control:
         self.press_a()
         self.rand_up()
         self.rand_left()
-        self.rand_a(10)
+        # self.rand_a(10)
 
     def text_sequence(self):
-        self.rand_a(4)
-        self.rand_b(4)
+        self.press_a()
+        self.press_b()
 
     def no_interactions(self):
         self.rand_direction(2)
 
     def press_a(self):
         KI.KeyPress(KI.A, KEYPRESS_DELAY)
+        if self.print:
+            print("pressed A", flush=True)
 
     def press_b(self):
         KI.KeyPress(KI.B, KEYPRESS_DELAY)
+        if self.print:
+            print("pressed B", flush=True)
 
     def press_down(self):
         KI.KeyPress(KI.DOWN, KEYPRESS_DELAY)

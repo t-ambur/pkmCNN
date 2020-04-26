@@ -6,7 +6,7 @@ import constants as c
 
 ahk = AHK()
 
-SCREENSHOT_INTERVAL = 5
+SCREENSHOT_INTERVAL = 2
 
 
 def screenshot():
@@ -17,7 +17,7 @@ def screenshot():
     w = window.width
     im = ImageGrab.grab(bbox=(x, y+c.SCREEN_SHOT_Y_REMOVAL, x + w, y + h))
     t = time.time()
-    location = "output\\screenshot" + str(t) + ".png"
+    location = "record\\screenshot" + str(t) + ".png"
     im.save(location)
     print("Window Captured:", str(location), flush=True)
 
